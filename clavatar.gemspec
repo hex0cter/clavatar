@@ -4,8 +4,8 @@ require 'version'
 Gem::Specification.new do |s|
   s.name        = 'clavatar'
   s.version     = Clavatar::VERSION
-  s.summary     = 'Class avatar which convert a hash to an object'
-  s.description = 'Class avatar which convert a hash to an object'
+  s.summary     = 'Convert a hash into a Ruby class instance'
+  s.description = 'Apply a hash into a Ruby Class and return an instance of it.'
   s.authors     = ['Daniel Han']
   s.email       = 'hex0cter@gmail.com'
   s.homepage    = 'https://github.com/hex0cter/clavatar'
