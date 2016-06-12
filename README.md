@@ -4,10 +4,10 @@
 [![Build Status](https://travis-ci.org/hex0cter/clavatar.svg?branch=master)](https://travis-ci.org/hex0cter/clavatar)
 [![Coverage Status](https://coveralls.io/repos/github/hex0cter/clavatar/badge.svg?branch=master)](https://coveralls.io/github/hex0cter/clavatar?branch=master)
 
-Clavatar is a ruby gem that convert a a hash into a Ruby class instance.
+Clavatar is a ruby gem that converts a hash into a Ruby object.
 
 During the web development, it is common to transfer json between the browser and the server. When the json from the
-browser presents an object, you might need to convert this json (which is presented by the server as a hash) into a Ruby
+browser presents an object, you might need to convert it (which is presented by the server as a hash) into a Ruby
 object.
 
 Normally the class you wanna convert to has to provide a method or constructor that takes a hash as parameter. In that
