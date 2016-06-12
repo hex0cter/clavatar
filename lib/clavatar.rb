@@ -3,11 +3,12 @@ require 'ostruct'
 # Clavatar module
 module Clavatar
   def self.cast(hash, klass, example)
-    klass_name = "#{klass}Avatar"
-    if Object.const_defined? klass_name
-      klass = Object.const_get klass_name
+    name_space = klass.respond_to?(:parent) ? klass.parent : Object
+    klass_name = "#{klass.name.split('::').last}Avatar"
+    if name_space.const_defined? klass_name
+      klass = name_space.const_get klass_name
     else
-      klass = Object.const_set klass_name, Class.new(klass)
+      klass = name_space.const_set klass_name, Class.new(klass)
     end
 
     args = {}
@@ -21,7 +22,7 @@ module Clavatar
       end
     end
 
-    instance =  klass.new args
+    instance =  klass.new args.merge(hash)
     accessible_attr.each do |attr|
       instance.send("#{attr}=", hash[attr])
     end
