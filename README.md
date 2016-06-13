@@ -31,42 +31,56 @@ the following syntax is used in the class's constructor:
 
 ```ruby
 class A
-    def initialize(param1:, [**args])
+    def initialize(param_1, param_2, ... param_x:, param_y:, [**args])
         ...
     end
 end
 ```
 
-Once a new instance is created, clavatar just copies all the other accessible data to the new instance.
+Once a new instance is created, clavatar just copies all the other accessible data to the new instance. Below is an
+example of using clavatar:
 
 ```ruby
-module A
-  class KlassB
+module TestModule
+  class MyKlass
     attr_reader :b1
-    attr_accessor :b2
-    attr_writer :b3
+    attr_reader :b2
+    attr_reader :b3
+    attr_reader :b4
+    attr_writer :b5
+    attr_writer :b6
 
-    def initialize(b1:)
+    def initialize(b1, b2 = 2, b3:, b4: 4, **args)
       @b1 = b1
+      @b2 = b2
+      @b3 = b3
+      @b4 = b4
+      @b5 = args.fetch :b5, 0
+      @b6 = args.fetch :b6, 0
     end
 
-    def get_attr_b3
-      @b3
+    def get_attr_b5
+      @b5
+    end
+
+    def get_attr_b6
+      @b6
     end
   end
 end
 
-class TestClavatar1 < Minitest::Test
+class TestClavatarMixedParams < Minitest::Test
   def test_plain_attrs
-    obj_b = A::KlassB.new(b1: 1)
-    obj_b.b2 = 2
-    obj_b.b3 = 3
-    obj_b.set_another_attribute
+    my_obj = TestModule::MyKlass.new(1, b3: 3, b5:5)
+    my_obj.b6 = 6
 
-    avatar = Clavatar.cast({b1: 4, b2: 5, b3: 6}, A::KlassB, obj_b)
-    assert avatar.b1 == 4
-    assert avatar.b2 == 5
-    assert avatar.get_attr_b3 == 6
+    my_obj_avatar = Clavatar.cast({b1: 11, b2: 12, b3: 13, b4: 14, b5: 15, b6: 16}, TestModule::MyKlass, my_obj)
+    assert my_obj_avatar.b1 == 11
+    assert my_obj_avatar.b2 == 12
+    assert my_obj_avatar.b3 == 13
+    assert my_obj_avatar.b4 == 14
+    assert my_obj_avatar.get_attr_b5 == 15
+    assert my_obj_avatar.get_attr_b6 == 16
   end
 end
 

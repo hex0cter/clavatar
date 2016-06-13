@@ -11,22 +11,37 @@ module Clavatar
       end
     end
 
-    args = {}
+    key_args = {}
+    args = []
     construct_params = example.method(:initialize).parameters
     construct_params.each do |param|
       arg_required, arg_name = param
 
       case arg_required
+        when :req
+          args << arg_name
+        when :opt
+          args << arg_name if hash.key? arg_name
         when :keyreq
           raise "parameter #{arg_name} is mandatory but missing in #{hash}" unless hash.key? arg_name
+          key_args[arg_name] = hash[arg_name]
         when :keyrest
-          args.merge! hash
+          key_args.merge! hash
           break
       end
-      args[arg_name] = hash[arg_name]
     end
 
-    instance = klass.new args
+    args.map! { |val| hash[val] }
+    if args.empty? and key_args.empty?
+      instance = klass.send(:new)
+    elsif args.empty?
+      instance = klass.send(:new, key_args)
+    elsif key_args.empty?
+      instance = klass.send(:new, *args)
+    else
+      instance = klass.send(:new, *args, **key_args)
+    end
+
     accessible_attr.each do |attr|
       instance.send("#{attr}=", hash[attr])
     end
