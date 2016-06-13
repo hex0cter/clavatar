@@ -6,11 +6,11 @@
 Clavatar is a ruby gem that converts a hash into a Ruby object.
 
 During the web development, it is common to transfer json between the browser and the server. When the json from the
-browser presents an object, you might need to convert it (which is presented by the server as a hash) into a Ruby
+browser presents an object, you might need to convert it (which is presented by the server as a hash) back into a Ruby
 object.
 
-Normally the class you wanna convert to has to provide a method or constructor that takes a hash as parameter. In that
-way you will have to do the same for all the classes.
+Normally the class you want to convert to has to provide a method or constructor that takes a hash as argument. In that
+way you will have to implement the same interface for all the classes.
 
 Clavatar provides another solution for this. When you want to convert a json (hash) into the object, you just need to
 provide the class name and a hash. As Ruby is a dynamic language, an existing instance of the same class is provided as
@@ -22,23 +22,23 @@ When you call
 Clavatar.cast(hash, class, example)
 ```
 
-clavatar will first inspect all the internal data and find out which are writable (for instance, attr_accessor,
-attr_writer, etc.) and which are not (for instance, attr_reader, private members, etc).
+clavatar will first inspect all the internal data of example and find out which are writable (for instance,
+attr_accessor, attr_writer, etc.) and which are not (for instance, attr_reader, private members, etc).
 
 For those that are not writable, clavatar attemps to call its constructor using the information provided by the hash.
-As a constructor can be written in any way (for example, the order of parameters can be in any order), clavatar assumes
-the following syntax is used in the class's constructor:
+At the moment clavatar supports the class constructor in any of the following forms:
 
 ```ruby
 class A
-    def initialize(param_1, param_2, ... param_x:, param_y:, [**args])
+    def initialize([param_1, param_2, ...] [param_x:, param_y:, ...] [**args])
         ...
     end
 end
 ```
 
-Once a new instance is created, clavatar just copies all the other accessible data to the new instance. Below is an
-example of using clavatar:
+Once a new instance is created, clavatar just copies all the other accessible data to the new instance.
+
+Below is an example of how to use clavatar:
 
 ```ruby
 module TestModule
@@ -83,5 +83,26 @@ class TestClavatarMixedParams < Minitest::Test
     assert my_obj_avatar.get_attr_b6 == 16
   end
 end
-
 ```
+
+## How to install?
+
+From a terminal run
+
+```bash
+  gem install clavatar
+```
+
+or add the following code into your Gemfiles:
+
+```ruby
+  gem 'clavatar'
+```
+
+## License
+
+This code is free to use under the terms of the MIT license.
+
+## Contribution
+
+You are more than welcome to raise any issues [here](https://github.com/hex0cter/clavatar/issues), or create a Pull Request.
