@@ -29,7 +29,7 @@ class TestClavatarKeyReq < Minitest::Test
     obj_b.b3 = 3
     obj_b.set_another_attribute
 
-    avatar = Clavatar.cast({b1: 4, b2: 5, b3: 6}, TestClavatarKeyReqMod::KlassB, obj_b)
+    avatar = Clavatar.cast({b1: 4, b2: 5, b3: 6}, obj_b)
     assert avatar.b1 == 4
     assert avatar.b2 == 5
     assert avatar.get_attr_b3 == 6

@@ -25,7 +25,7 @@ class TestClavatarKeyRest < Minitest::Test
     obj_b.b2 = 2
     obj_b.b3 = 3
 
-    avatar = Clavatar.cast({b1: 4, b2: 5, b3: 6}, TestClavatarKeyRestMod::KlassB, obj_b)
+    avatar = Clavatar.cast({b1: 4, b2: 5, b3: 6}, obj_b)
     assert avatar.b1 == 4
     assert avatar.b2 == 5
     assert avatar.get_attr_b3 == 6

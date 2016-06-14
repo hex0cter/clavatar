@@ -2,7 +2,8 @@ require 'ostruct'
 
 # Clavatar module
 module Clavatar
-  def self.cast(hash, klass, example)
+  def self.cast(hash, example)
+    klass = example.class
     accessible_attr = []
     example.instance_variables.each do |attr|
       attr = attr.to_s.sub('@', '').to_sym

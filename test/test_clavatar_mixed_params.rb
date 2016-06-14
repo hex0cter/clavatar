@@ -35,7 +35,7 @@ class TestClavatarMixedParams < Minitest::Test
     obj_b = TestClavatarMixedParamsMod::KlassB.new(1, b3: 3, b5:5)
     obj_b.b6 = 6
 
-    avatar = Clavatar.cast({b1: 11, b2: 12, b3: 13, b4: 14, b5: 15, b6: 16}, TestClavatarMixedParamsMod::KlassB, obj_b)
+    avatar = Clavatar.cast({b1: 11, b2: 12, b3: 13, b4: 14, b5: 15, b6: 16}, obj_b)
     assert avatar.b1 == 11
     assert avatar.b2 == 12
     assert avatar.b3 == 13

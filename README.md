@@ -6,23 +6,21 @@
 Clavatar is a ruby gem that converts a hash into a Ruby object.
 
 During the web development, it is common to transfer json between the browser and the server. When the json from the
-browser presents an object, you might need to convert it (which is presented by the server as a hash) back into a Ruby
-object.
+browser presents an object, you might need to convert it back into a Ruby object on the server side.
 
 Normally the class you want to convert to has to provide a method or constructor that takes a hash as argument. In that
 way you will have to implement the same interface for all the classes.
 
 Clavatar provides another solution for this. When you want to convert a json (hash) into the object, you just need to
-provide the class name and a hash. As Ruby is a dynamic language, an existing instance of the same class is provided as
-an example.
+provide an existing instance of the same class. For example,
 
 When you call
 
 ```ruby
-Clavatar.cast(hash, class, example)
+Clavatar.cast(hash, object)
 ```
 
-clavatar will first inspect all the internal data of example and find out which are writable (for instance,
+clavatar will first inspect all the internal data of object and find out which are writable (for instance,
 attr_accessor, attr_writer, etc.) and which are not (for instance, attr_reader, private members, etc).
 
 For those that are not writable, clavatar attemps to call its constructor using the information provided by the hash.
@@ -30,7 +28,7 @@ At the moment clavatar supports the class constructor in any of the following fo
 
 ```ruby
 class A
-    def initialize([param_1, param_2, ...] [param_x:, param_y:, ...] [**args])
+    def initialize([param_1[, param_2[, ...]]] [param_x:[, param_y:[, ...]]] [**args])
         ...
     end
 end
@@ -71,16 +69,16 @@ end
 
 class TestClavatarMixedParams < Minitest::Test
   def test_plain_attrs
-    my_obj = TestModule::MyKlass.new(1, b3: 3, b5:5)
-    my_obj.b6 = 6
+    old_obj = TestModule::MyKlass.new(1, b3: 3, b5:5)
+    old_obj.b6 = 6
 
-    my_obj_avatar = Clavatar.cast({b1: 11, b2: 12, b3: 13, b4: 14, b5: 15, b6: 16}, TestModule::MyKlass, my_obj)
-    assert my_obj_avatar.b1 == 11
-    assert my_obj_avatar.b2 == 12
-    assert my_obj_avatar.b3 == 13
-    assert my_obj_avatar.b4 == 14
-    assert my_obj_avatar.get_attr_b5 == 15
-    assert my_obj_avatar.get_attr_b6 == 16
+    new_obj = Clavatar.cast({b1: 11, b2: 12, b3: 13, b4: 14, b5: 15, b6: 16}, old_obj)
+    assert new_obj.b1 == 11
+    assert new_obj.b2 == 12
+    assert new_obj.b3 == 13
+    assert new_obj.b4 == 14
+    assert new_obj.get_attr_b5 == 15
+    assert new_obj.get_attr_b6 == 16
   end
 end
 ```
