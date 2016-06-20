@@ -1,5 +1,7 @@
 # The clavatar gem for Ruby
 
+__NOTICE: This gem is deprecated. Please replace it with the [hash2obj](https://rubygems.org/gems/hash2obj) gem. __
+
 [![Gem Version](https://badge.fury.io/rb/clavatar.svg)](https://badge.fury.io/rb/clavatar)
 [![Build Status](https://travis-ci.org/hex0cter/clavatar.svg?branch=master)](https://travis-ci.org/hex0cter/clavatar)
 

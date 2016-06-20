@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.files       = Dir['lib/**/*']
   s.required_ruby_version = '>= 2.1.0'
   s.require_paths = ['lib']
+  s.post_install_message = 'This gem is no longer maintained. Please use hash2obj instead.'
 end
